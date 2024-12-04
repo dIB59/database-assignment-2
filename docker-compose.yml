@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password  # Set your root password
+      MYSQL_DATABASE: my_database         # Create a database on startup
+      MYSQL_USER: my_user                 # Create a user on startup
+      MYSQL_PASSWORD: my_password         # Set the user password
+    volumes:
+      - mysql_data:/var/lib/mysql         # Persistent data storage
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # Optional: Run custom SQL scripts on startup
+
+volumes:
+  mysql_data:

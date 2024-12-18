@@ -46,28 +46,16 @@ def register_user(
 
 if __name__ == "__main__":
     connection = get_connection()
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        SELECT * FROM book_store.books
-        LIMIT 10
-        """
-    )
-
-    data = cursor.fetchall()
-    print(data)
-
-    connection = get_connection()
-    register_user(
-        fname="John",
-        lname="Doe",
+    user = register_user(
+        fname="John2",
+        lname="Doe2",
         address="123 Main St",
         city="New York",
         zip=10001,
         phone="1234567890",
-        email="john.doe@example.com",
+        email="john.doe3@example.com",
         password="hashed_password",
         connection=connection,
     )
-    cursor.close()
+    connection.close()
+    print(user)

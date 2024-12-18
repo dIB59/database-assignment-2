@@ -14,9 +14,11 @@ if __name__ == "__main__":
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
         SELECT * FROM book_store.books
         LIMIT 10
-        """)
+        """
+    )
     data = cursor.fetchall()
     print(data)

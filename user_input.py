@@ -1,7 +1,7 @@
 def __validate_user_input(
-    prompt: str,
-    valid_inputs: list[str],
-    error_message: str = "Invalid input. Please try again.",
+        prompt: str,
+        valid_inputs: list[str],
+        error_message: str = "Invalid input. Please try again.",
 ) -> str:
     while True:
         user_input = input(prompt).strip()
@@ -32,20 +32,30 @@ def collect_user_data():
         print("Invalid phone number. It must be 10 digits long.")
 
     # Validate email (simple validation)
+    email = __get_email()
+
+    # Validate password (example validation: at least 8 characters)
+    password = __get_password()
+
+    return fname, lname, address, city, zip_code, phone, email, password
+
+
+def __get_email():
     while True:
         email = input("Enter your email: ").strip()
         if "@" in email and "." in email:
             break
         print("Invalid email address. Please enter a valid email.")
+    return email
 
-    # Validate password (example validation: at least 8 characters)
+
+def __get_password():
     while True:
         password = input("Enter your password: ").strip()
         if len(password) >= 8:
             break
         print("Password must be at least 8 characters long.")
-
-    return fname, lname, address, city, zip_code, phone, email, password
+    return password
 
 
 def get_login_screen_decision():

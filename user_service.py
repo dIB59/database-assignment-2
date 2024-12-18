@@ -1,18 +1,6 @@
-from typing import NamedTuple
-
 import database
 import user_input
-
-
-class User(NamedTuple):
-    fname: str
-    lname: str
-    address: str
-    city: str
-    zip: str
-    phone: str
-    email: str
-    password: str
+from user import User
 
 
 def login():

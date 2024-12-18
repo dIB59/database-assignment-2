@@ -2,7 +2,7 @@ import mysql.connector as sconnect
 from mysql.connector.abstracts import MySQLConnectionAbstract
 from mysql.connector.pooling import PooledMySQLConnection
 
-from user_service import User
+from user import User
 
 
 def get_connection():
@@ -24,7 +24,7 @@ def register_user(
         email: str,
         password: str,
         connection: PooledMySQLConnection | MySQLConnectionAbstract,
-):
+) -> User or None:
     cursor = connection.cursor()
     insert_query = (
         "INSERT INTO book_store.members (fname, lname, address, city, zip, phone, email, password) VALUES "

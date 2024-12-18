@@ -1,5 +1,5 @@
-import register
 import user_input
+import user_service
 
 
 def show_login_screen():
@@ -14,14 +14,6 @@ def show_login_screen():
     print(f"\n{'q. Quit'.center(width)}")
 
 
-def login_user():
-    print("login user")
-
-
-def register_user():
-    print("register user")
-
-
 def main():
     exit_p = False
 
@@ -30,13 +22,13 @@ def main():
         user_decision = user_input.get_login_screen_decision()
 
         match user_decision:
-            case 'q':
+            case "q":
                 break
-            case '1':
-                login_user()
-            case '2':
-                register_user()
+            case "1":
+                user_service.login()
+            case "2":
+                user_service.register()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

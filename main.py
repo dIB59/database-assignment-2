@@ -15,17 +15,23 @@ def show_login_screen():
 
 
 def main():
-
+    logged_in = False
     show_login_screen()
     user_decision = user_input.get_login_screen_decision()
 
-    match user_decision:
-        case "q":
-            return
-        case "1":
-            user_service.login()
-        case "2":
-            user_service.register()
+    while not logged_in:
+        match user_decision:
+            case "q":
+                break
+            case "1":
+                user = user_service.login()
+                if user:
+                    logged_in = True
+            case "2":
+                user_service.register()
+
+
+
 
 
 if __name__ == "__main__":

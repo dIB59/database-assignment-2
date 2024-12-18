@@ -1,15 +1,38 @@
+from typing import NamedTuple
+
 import database
 import user_input
 
 
+class User(NamedTuple):
+    fname: str
+    lname: str
+    address: str
+    city: str
+    zip: str
+    phone: str
+    email: str
+    password: str
+
+
 def login():
     print("login user")
+    connection = database.get_connection()
+    email, password = user_input.get_login_data()
+    user = database.login_user(
+        email,
+        password,
+        connection
+    )
+    if user is None:
+        return False
+    return True
 
 
-def register():
+def register() -> User:
     connection = database.get_connection()
     user_data = user_input.collect_user_data()
-    database.register_user(
+    return database.register_user(
         user_data[0],
         user_data[1],
         user_data[2],
@@ -20,4 +43,3 @@ def register():
         user_data[6],
         connection
     )
-    return

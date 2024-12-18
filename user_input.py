@@ -40,6 +40,10 @@ def collect_user_data():
     return fname, lname, address, city, zip_code, phone, email, password
 
 
+def get_login_data():
+    return __get_email(), __get_password()
+
+
 def __get_email():
     while True:
         email = input("Enter your email: ").strip()

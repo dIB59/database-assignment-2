@@ -2,6 +2,8 @@ import mysql.connector as sconnect
 from mysql.connector.abstracts import MySQLConnectionAbstract
 from mysql.connector.pooling import PooledMySQLConnection
 
+from user_service import User
+
 
 def get_connection():
     return sconnect.connect(
@@ -13,15 +15,15 @@ def get_connection():
 
 
 def register_user(
-    fname: str,
-    lname: str,
-    address: str,
-    city: str,
-    zip: int,
-    phone: str,
-    email: str,
-    password: str,
-    connection: PooledMySQLConnection | MySQLConnectionAbstract,
+        fname: str,
+        lname: str,
+        address: str,
+        city: str,
+        zip: int,
+        phone: str,
+        email: str,
+        password: str,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
 ):
     cursor = connection.cursor()
     insert_query = (
@@ -38,6 +40,21 @@ def register_user(
     cursor.execute(select_query, (user_id,))
     user = cursor.fetchone()
 
+    cursor.close()
+    connection.close()
+
+    return user
+
+
+def login_user(
+        email: str,
+        password: str,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
+) -> User or None:
+    cursor = connection.cursor(dictionary=True)
+    select_query = "SELECT * FROM book_store.members WHERE book_store.members.email = %s AND password = %s"
+    cursor.execute(select_query, (email, password))
+    user = cursor.fetchone()
     cursor.close()
     connection.close()
 

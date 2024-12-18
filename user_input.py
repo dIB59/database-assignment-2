@@ -66,5 +66,9 @@ def get_login_screen_decision():
     return __validate_user_input("Type in your option: ", ["1", "2", "q"])
 
 
+def get_logged_in_screen_decision():
+    return __validate_user_input("Type in your option: ", ["1", "2", "3", "4"])
+
+
 if __name__ == "__main__":
     collect_user_register_data()

@@ -1,3 +1,6 @@
+import register
+
+
 def show_login_screen():
     width = 70
     print("*" * width)
@@ -10,6 +13,14 @@ def show_login_screen():
     print(f"\n{'q. Quit'.center(width)}")
 
 
+def login_user():
+    print("login user")
+
+
+def register_user():
+    print("register user")
+
+
 def main():
     exit_p = False
 
@@ -17,8 +28,14 @@ def main():
         show_login_screen()
         user_decision = input("WHAT DO YOU WANT TO DO?")
 
-        if user_decision == "q":
-            break
+        match user_decision:
+            case 'q':
+                break
+            case '1':
+                login_user()
+            case '2':
+                register_user()
+
 
 
 if __name__ == '__main__':

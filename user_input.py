@@ -1,7 +1,7 @@
 def __validate_user_input(
-        prompt: str,
-        valid_inputs: list[str],
-        error_message: str = "Invalid input. Please try again.",
+    prompt: str,
+    valid_inputs: list[str],
+    error_message: str = "Invalid input. Please try again.",
 ) -> str:
     while True:
         user_input = input(prompt).strip()

@@ -1,7 +1,7 @@
 import mysql.connector as sconnect
 
 
-def get_connection(url: str = "127.0.0.1"):
+def get_connection():
     return sconnect.connect(
         host="localhost",
         port="3306",
@@ -11,7 +11,7 @@ def get_connection(url: str = "127.0.0.1"):
 
 
 if __name__ == "__main__":
-    connection = cxt = get_connection()
+    connection = get_connection()
     cursor = connection.cursor()
 
     cursor.execute("""

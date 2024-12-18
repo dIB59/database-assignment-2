@@ -31,7 +31,17 @@ def register_user(
     values = (fname, lname, address, city, zip, phone, email, password)
     cursor.execute(insert_query, values)
     connection.commit()
+
+    user_id = cursor.lastrowid
+
+    select_query = "SELECT * FROM book_store.members WHERE book_store.members.userid = %s"
+    cursor.execute(select_query, (user_id,))
+    user = cursor.fetchone()
+
+    cursor.close()
     connection.close()
+
+    return user
 
 
 if __name__ == "__main__":

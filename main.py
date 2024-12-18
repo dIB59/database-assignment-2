@@ -15,19 +15,17 @@ def show_login_screen():
 
 
 def main():
-    exit_p = False
 
-    while not exit_p:
-        show_login_screen()
-        user_decision = user_input.get_login_screen_decision()
+    show_login_screen()
+    user_decision = user_input.get_login_screen_decision()
 
-        match user_decision:
-            case "q":
-                break
-            case "1":
-                user_service.login()
-            case "2":
-                user_service.register()
+    match user_decision:
+        case "q":
+            return
+        case "1":
+            user_service.login()
+        case "2":
+            user_service.register()
 
 
 if __name__ == "__main__":

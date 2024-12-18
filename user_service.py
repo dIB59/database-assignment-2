@@ -13,6 +13,7 @@ def login():
         connection
     )
     if user is None:
+        print("User not found, please check if email or username is correct")
         return False
     return True
 

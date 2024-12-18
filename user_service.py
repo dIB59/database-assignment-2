@@ -19,7 +19,7 @@ def login():
 
 def register() -> User:
     connection = database.get_connection()
-    user_data = user_input.collect_user_data()
+    user_data = user_input.collect_user_register_data()
     return database.register_user(
         user_data[0],
         user_data[1],

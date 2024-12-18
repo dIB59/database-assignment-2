@@ -10,7 +10,7 @@ def __validate_user_input(
         print(error_message)
 
 
-def collect_user_data():
+def collect_user_register_data():
     fname = input("Enter your first name: ").strip()
     lname = input("Enter your last name: ").strip()
     address = input("Enter your address: ").strip()
@@ -67,4 +67,4 @@ def get_login_screen_decision():
 
 
 if __name__ == "__main__":
-    collect_user_data()
+    collect_user_register_data()

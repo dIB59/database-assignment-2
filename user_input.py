@@ -1,4 +1,4 @@
-def validate_user_input(prompt: str, valid_inputs: list[str],
+def __validate_user_input(prompt: str, valid_inputs: list[str],
                         error_message: str = "Invalid input. Please try again.") -> str:
     """Get user input and validate against a list of valid options."""
     while True:
@@ -12,7 +12,7 @@ def validate_user_input(prompt: str, valid_inputs: list[str],
 
 
 def get_login_screen_decision():
-    return validate_user_input(
+    return __validate_user_input(
         "Type in your option: ",
         ["1", "2", "q"]
     )

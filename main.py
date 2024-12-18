@@ -1,4 +1,5 @@
 import register
+import user_input
 
 
 def show_login_screen():
@@ -26,7 +27,7 @@ def main():
 
     while not exit_p:
         show_login_screen()
-        user_decision = input("WHAT DO YOU WANT TO DO?")
+        user_decision = user_input.get_login_screen_decision()
 
         match user_decision:
             case 'q':
@@ -35,7 +36,6 @@ def main():
                 login_user()
             case '2':
                 register_user()
-
 
 
 if __name__ == '__main__':

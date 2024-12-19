@@ -29,34 +29,60 @@ def show_logged_in_menu():
     print(f"{'4 Logout'.center(width)}")
 
 
+def logout():
+    pass
+
+
+def handle_login():
+    user = user_service.login()
+    if user:
+        print(f"Welcome, {user["fname"]} {user["lname"]}!")
+        return True
+    return False
+
+
+def handle_register():
+    if user_service.register():
+        print("Registration successful.")
+    else:
+        print("Something went wrong please try again later.")
+
+
+def handle_logged_in_menu_option(option):
+    options = {
+        "1": lambda: print("Option 1 selected."),
+        "2": lambda: print("Option 2 selected."),
+        "3": lambda: print("Option 3 selected."),
+        "4": logout,
+    }
+    action = options.get(option, lambda: print("Invalid option."))
+    action()
+
+
 def main():
-    logged_in = False
-    show_login_screen()
-    user_decision = user_input.get_login_screen_decision()
+    while True:  # Main application loop
+        logged_in = False
 
-    while not logged_in:
-        match user_decision:
-            case "q":
-                break
-            case "1":
-                user = user_service.login()
-                if user:
-                    logged_in = True
-            case "2":
-                user_service.register()
+        # Main menu loop
+        while not logged_in:
+            show_login_screen()
+            user_decision = user_input.get_login_screen_decision()
+            main_menu_actions = {
+                "q": lambda: exit("Exiting the program."),
+                "1": lambda: handle_login(),
+                "2": handle_register,
+            }
+            action = main_menu_actions.get(user_decision, lambda: print("Invalid option."))
+            logged_in = action() if user_decision == "1" else logged_in
 
-    while logged_in:
-        show_logged_in_menu()
-        user_decision = user_input.get_logged_in_screen_decision()
-        match user_decision:
-            case "1":
-                print()
-            case "2":
-                print()
-            case "3":
-                print()
-            case "4":
-                print()
+        # Logged-in menu loop
+        while logged_in:
+            show_logged_in_menu()
+            user_decision = user_input.get_logged_in_screen_decision()
+            if user_decision == "4":  # Logout option
+                logged_in = False  # Exit logged-in loop
+            else:
+                handle_logged_in_menu_option(user_decision)
 
 
 if __name__ == "__main__":

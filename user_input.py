@@ -1,3 +1,5 @@
+from typing import List
+
 from user import User
 
 
@@ -65,6 +67,10 @@ def __get_password():
     return password
 
 
+def get_browse_subject_decision(subjects: List):
+    return __validate_user_input("Type in your option: ", [str(i) for i in range(len(subjects))])
+
+
 def get_login_screen_decision():
     return __validate_user_input("Type in your option: ", ["1", "2", "q"])
 
@@ -75,3 +81,7 @@ def get_logged_in_screen_decision():
 
 if __name__ == "__main__":
     collect_user_register_data()
+
+
+def get_pagination_decision():
+    return __validate_user_input("Type in your option: ", ["q", "n", "p"])

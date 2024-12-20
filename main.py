@@ -1,3 +1,4 @@
+import database
 import user_input
 import user_service
 
@@ -56,6 +57,56 @@ def handle_logged_in_menu_option(option):
     action()
 
 
+def handle_browse_subject():
+    subjects = sorted(database.get_book_subjects())
+    print("\nAvailable Subjects:")
+    for idx, subject in enumerate(subjects):
+        print(f"{idx + 1}. {subject}")
+
+    # Get user decision for a subject
+    subject_index = user_input.get_browse_subject_decision(subjects)
+    chosen_subject = subjects[int(subject_index) - 1]
+
+    # Fetch books for the selected subject
+    books = database.get_books_by_subject(chosen_subject)
+
+    # Display books 2 at a time
+    books_per_page = 2
+    total_books = len(books)
+    current_page = 0
+
+    while True:
+        # Get the start and end index for books on the current page
+        start_index = current_page * books_per_page
+        end_index = start_index + books_per_page
+        displayed_books = books[start_index:end_index]
+
+        print(f"\nBooks for subject: {chosen_subject}")
+        for idx, book in enumerate(displayed_books, start=start_index + 1):
+            print(f"{idx}. {book['title']} by {book['author']}")
+
+        print("\nOptions:")
+        if current_page > 0:
+            print("P - Previous Page")
+        if end_index < total_books:
+            print("N - Next Page")
+        print("Q - Quit")
+
+        user_choice = user_input.get_pagination_decision()
+
+        if user_choice.lower() == "q":
+            break
+        elif user_choice.lower() == "n" and end_index < total_books:
+            current_page += 1
+        elif user_choice.lower() == "p" and current_page > 0:
+            current_page -= 1
+        else:
+            print("Invalid choice. Please try again.")
+
+
+
+
+
 def main():
     while True:  # Main application loop
         logged_in = False
@@ -80,6 +131,9 @@ def main():
         while logged_in:
             show_logged_in_menu()
             user_decision = user_input.get_logged_in_screen_decision()
+            if user_decision == "1":
+                handle_browse_subject()
+
             if user_decision == "4":  # Logout option
                 logged_in = False  # Exit logged-in loop
             else:

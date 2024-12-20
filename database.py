@@ -25,7 +25,7 @@ def get_book_subjects():
         connection.close()
 
 
-def get_book_by_subject(subject: str):
+def get_books_by_subject(subject: str):
     connection = get_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM book_store.books WHERE book_store.books.subject = %s", (subject, ))
@@ -84,4 +84,4 @@ def login_user(
 if __name__ == "__main__":
     s = get_book_subjects()
 
-    print(get_book_by_subject(s[0]))
+    print(get_books_by_subject(s[0]))

@@ -29,10 +29,6 @@ def show_logged_in_menu():
     print(f"{'4 Logout'.center(width)}")
 
 
-def logout():
-    pass
-
-
 def handle_login():
     user = user_service.login()
     if user:
@@ -53,7 +49,7 @@ def handle_logged_in_menu_option(option):
         "1": lambda: print("Option 1 selected."),
         "2": lambda: print("Option 2 selected."),
         "3": lambda: print("Option 3 selected."),
-        "4": logout,
+        "4": lambda: print("Logging out"),
     }
     action = options.get(option, lambda: print("Invalid option."))
     action()

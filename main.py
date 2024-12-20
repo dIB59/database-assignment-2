@@ -65,11 +65,15 @@ def main():
             user_decision = user_input.get_login_screen_decision()
             main_menu_actions = {
                 "q": lambda: exit("Exiting the program."),
-                "1": lambda: handle_login(),
+                "1": handle_login,
                 "2": handle_register,
             }
-            action = main_menu_actions.get(user_decision, lambda: print("Invalid option."))
-            logged_in = action() if user_decision == "1" else logged_in
+            res = main_menu_actions.get(user_decision, lambda: print("Invalid option."))()
+
+            if res and user_decision == "1":
+                logged_in = True
+
+
 
         # Logged-in menu loop
         while logged_in:

@@ -16,15 +16,13 @@ def get_connection():
 
 def get_book_subjects():
     connection = get_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT DISTINCT(books.subject) FROM book_store.books")
-    res = cursor.fetchall()
-    connection.close()
-    lst = []
-    for i in res:
-        for j in i.values():
-            lst.append(j)
-    return lst
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("SELECT DISTINCT subject FROM book_store.books")
+            subjects = [row['subject'] for row in cursor.fetchall()]
+        return subjects
+    finally:
+        connection.close()
 
 
 def get_book_by_subject(subject: str):

@@ -1,3 +1,6 @@
+from user import User
+
+
 def __validate_user_input(
         prompt: str,
         valid_inputs: list[str],
@@ -22,8 +25,6 @@ def collect_user_register_data():
             break
         print("Invalid zip code. It must be digits only.")
 
-    zip_code = input("Enter your zip code: ").strip()
-
     # Validate phone number (example validation: must be digits and 10 characters long)
     while True:
         phone = input("Enter your phone number: ").strip()
@@ -37,7 +38,9 @@ def collect_user_register_data():
     # Validate password (example validation: at least 8 characters)
     password = __get_password()
 
-    return fname, lname, address, city, zip_code, phone, email, password
+    new_user = User(fname, lname, address, city, zip_code, phone, email, password)
+
+    return new_user
 
 
 def get_login_data():

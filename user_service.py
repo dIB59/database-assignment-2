@@ -19,13 +19,13 @@ def register() -> User or None:
     connection = database.get_connection()
     user_data = user_input.collect_user_register_data()
     return database.register_user(
-        user_data[0],
-        user_data[1],
-        user_data[2],
-        user_data[3],
-        user_data[4],
-        user_data[5],
-        user_data[5],
-        user_data[6],
+        user_data.fname,
+        user_data.lname,
+        user_data.address,
+        user_data.city,
+        user_data.zip,
+        user_data.phone,
+        user_data.email,
+        user_data.password,
         connection
     )

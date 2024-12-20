@@ -40,6 +40,7 @@ def handle_login():
 def handle_register():
     if user_service.register():
         print("Registration successful.")
+        input("Please press enter to go back to the menu")
     else:
         print("Something went wrong please try again later.")
 

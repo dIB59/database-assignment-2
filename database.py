@@ -14,6 +14,15 @@ def get_connection():
     )
 
 
+def get_book_subjects():
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT DISTINCT(books.subject) FROM book_store.books")
+    res = cursor.fetchall()
+    connection.close()
+    return res
+
+
 def register_user(
         fname: str,
         lname: str,
@@ -62,17 +71,4 @@ def login_user(
 
 
 if __name__ == "__main__":
-    connection = get_connection()
-    user = register_user(
-        fname="John2",
-        lname="Doe2",
-        address="123 Main St",
-        city="New York",
-        zip=10001,
-        phone="1234567890",
-        email="john.doe3@example.com",
-        password="hashed_password",
-        connection=connection,
-    )
-    connection.close()
-    print(user)
+    print(get_book_subjects())

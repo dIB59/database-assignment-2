@@ -27,6 +27,15 @@ def get_book_subjects():
     return lst
 
 
+def get_book_by_subject(subject: str):
+    connection = get_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM book_store.books WHERE book_store.books.subject = %s", (subject, ))
+    res = cursor.fetchall()
+    connection.close()
+    return res
+
+
 def register_user(
         fname: str,
         lname: str,
@@ -75,4 +84,6 @@ def login_user(
 
 
 if __name__ == "__main__":
-    print(get_book_subjects())
+    s = get_book_subjects()
+
+    print(get_book_by_subject(s[0]))

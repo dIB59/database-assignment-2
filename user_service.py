@@ -3,16 +3,12 @@ import user_input
 from user import User
 
 
-def login() -> User or None:
+def login() -> User | None:
     print("login user")
     connection = database.get_connection()
     email, password = user_input.get_login_data()
-    user = database.login_user(
-        email,
-        password,
-        connection
-    )
-    return user
+    user = database.login_user(email, password, connection)
+    return User(*user) if user else None
 
 
 def register() -> User or None:

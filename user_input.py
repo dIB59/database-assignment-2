@@ -1,6 +1,6 @@
 from typing import List
 
-from user import User
+from user import User, NewUser
 
 
 def __validate_user_input(
@@ -15,7 +15,7 @@ def __validate_user_input(
         print(error_message)
 
 
-def collect_user_register_data():
+def collect_user_register_data() -> NewUser:
     fname = input("Enter your first name: ").strip()
     lname = input("Enter your last name: ").strip()
     address = input("Enter your address: ").strip()
@@ -40,7 +40,7 @@ def collect_user_register_data():
     # Validate password (example validation: at least 8 characters)
     password = __get_password()
 
-    new_user = User(fname, lname, address, city, zip_code, phone, email, password)
+    new_user = NewUser(fname, lname, address, city, zip_code, phone, email, password)
 
     return new_user
 

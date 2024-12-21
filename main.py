@@ -110,16 +110,19 @@ def handle_browse_subject(user: User):
             current_page += 1
         elif user_choice.lower() == "p" and current_page > 0:
             current_page -= 1
-        elif user_choice.isdigit():
+        elif database.get_book_by_isbn(user_choice):
             book_isbn = user_choice
             quantity = user_input.get_quantity()
             database.add_to_cart(user.user_id, book_isbn, quantity)
-            print(
-                f"Added {quantity} of {books[int(book_isbn) - 1]['title']}"
-                f" with ISBN {books[int(book_isbn) - 1]['isbn']} to cart."
-            )
+            # print books in cart
+            cart = database.get_cart(user.user_id)
+            print("\nBooks in your cart:")
+            __print_books_pretty(cart)
+            input("Press Enter to continue")
         else:
             print("Invalid choice. Please try again.")
+            print("If you were trying to add a book to the cart, please enter the ISBN correctly.")
+            print("If you want to go back to the menu, press Enter.")
 
 
 def main():

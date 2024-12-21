@@ -100,7 +100,11 @@ def get_cart(user_id):
     connection = get_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute(
-        "SELECT book_store.books.isbn, book_store.books.title, book_store.books.price, book_store.cart.qty "
+        "SELECT book_store.books.isbn,"
+        " book_store.books.title,"
+        " book_store.books.price,"
+        " book_store.cart.qty,"
+        " books.author "
         "FROM book_store.cart "
         "JOIN book_store.books ON book_store.cart.isbn = book_store.books.isbn "
         "WHERE book_store.cart.userid = %s",

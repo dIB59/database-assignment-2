@@ -109,3 +109,13 @@ def get_quantity():
         [str(i) for i in range(1, 11)],
         "Invalid quantity. Please try again.",
     )
+
+
+def get_search_by_author_title_decision():
+    return __validate_user_input(
+        "Type in your option: \n"
+        "1. Search by author\n"
+        "2. Search by title\n"
+        "Press enter to go back to Main menu\n",
+        ["1", "2", ""], "Invalid option. Please try again."
+    )

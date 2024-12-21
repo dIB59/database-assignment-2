@@ -67,62 +67,116 @@ def __print_books_pretty(books):
         print()
 
 
-def handle_browse_subject(user: User):
+def handle_browse_subject(user, database, user_input):
     subjects = sorted(database.get_book_subjects())
-    print("\nAvailable Subjects:")
-    for idx, subject in enumerate(subjects):
-        print(f"{idx + 1}. {subject}")
+    _display_subjects(subjects)
 
-    # Get user decision for a subject
     subject_index = user_input.get_browse_subject_decision(subjects)
     chosen_subject = subjects[int(subject_index) - 1]
 
-    # Fetch books for the selected subject
-    books = database.get_books_by_subject(chosen_subject)
+    _browse_books_by_subject(user, chosen_subject, database, user_input)
 
-    # Display books 2 at a time
+
+def handle_search_by_author_title(user, database, user_input):
+    while True:
+        search_option = user_input.get_search_by_author_title_decision()
+        if search_option == "1":
+            author = input("Enter author name: ")
+            _search_books_by_author(user, author, database, user_input)
+        elif search_option == "2":
+            title = input("Enter title: ")
+            _search_books_by_title(user, title, database, user_input)
+        elif search_option == "":
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+
+def _browse_books_by_subject(user, subject, database, user_input):
+    books = database.get_books_by_subject(subject)
+    _paginate_and_add_to_cart(user, books, database, user_input, f"Books for subject: {subject}")
+
+
+def _search_books_by_author(user, author, database, user_input):
+    books = database.get_books_by_author(author)
+    if books:
+        _paginate_and_add_to_cart(user, books, database, user_input, f"Books by author: {author}")
+    else:
+        print("No books found for the author.")
+
+
+def _search_books_by_title(user, title, database, user_input):
+    books = database.get_books_by_title(title)
+    if books:
+        _paginate_and_add_to_cart(user, books, database, user_input, f"Books with title: {title}")
+    else:
+        print("No books found for the title.")
+
+
+def _paginate_and_add_to_cart(user, books, database, user_input, context_message):
     books_per_page = 2
     total_books = len(books)
     current_page = 0
 
     while True:
-        # Get the start and end index for books on the current page
-        start_index = current_page * books_per_page
-        end_index = start_index + books_per_page
-        displayed_books = books[start_index:end_index]
+        displayed_books = _get_books_for_page(books, current_page, books_per_page)
 
-        print(f"\nBooks for subject: {chosen_subject}")
-        __print_books_pretty(displayed_books)
+        print(f"\n{context_message}")
+        _print_books(displayed_books)
 
-        print("\nOptions:")
-        print("Enter the ISBN of the book to add to cart")
-        if current_page > 0:
-            print("P - Previous Page")
-        if end_index < total_books:
-            print("N - Next Page")
-        print("Press Enter to go back to the menu")
-
+        _display_pagination_options(current_page, total_books, books_per_page)
         user_choice = user_input.get_pagination_decision()
 
         if user_choice.lower() == "":
             break
-        elif user_choice.lower() == "n" and end_index < total_books:
+        elif user_choice.lower() == "n" and (current_page + 1) * books_per_page < total_books:
             current_page += 1
         elif user_choice.lower() == "p" and current_page > 0:
             current_page -= 1
         elif database.get_book_by_isbn(user_choice):
-            book_isbn = user_choice
-            quantity = user_input.get_quantity()
-            database.add_to_cart(user.user_id, book_isbn, quantity)
-            # print books in cart
-            cart = database.get_cart(user.user_id)
-            print("\nBooks in your cart:")
-            __print_books_pretty(cart)
-            input("Press Enter to continue")
+            _add_book_to_cart(user, user_choice, database, user_input)
         else:
             print("Invalid choice. Please try again.")
-            print("If you were trying to add a book to the cart, please enter the ISBN correctly.")
-            print("If you want to go back to the menu, press Enter.")
+
+
+def _add_book_to_cart(user, book_isbn, database, user_input):
+    quantity = user_input.get_quantity()
+    database.add_to_cart(user.user_id, book_isbn, quantity)
+    cart = database.get_cart(user.user_id)
+
+    print("\nBooks in your cart:")
+    _print_books(cart)
+    input("Press Enter to continue")
+
+
+def _display_subjects(subjects):
+    print("\nAvailable Subjects:")
+    for idx, subject in enumerate(subjects):
+        print(f"{idx + 1}. {subject}")
+
+
+def _get_books_for_page(books, current_page, books_per_page):
+    start_index = current_page * books_per_page
+    end_index = start_index + books_per_page
+    return books[start_index:end_index]
+
+
+def _display_pagination_options(current_page, total_books, books_per_page):
+    print("\nOptions:")
+    print("Enter the ISBN of the book to add to cart")
+    if current_page > 0:
+        print("P - Previous Page")
+    if (current_page + 1) * books_per_page < total_books:
+        print("N - Next Page")
+    print("Press Enter to go back to the menu")
+
+
+def _print_books(books):
+    if books:
+        for book in books:
+            print(f"{book}")  # Customize this as per book attributes
+    else:
+        print("No books to display.")
 
 
 def main():

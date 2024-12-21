@@ -31,12 +31,12 @@ def show_logged_in_menu():
     print(f"{'4 Logout'.center(width)}")
 
 
-def handle_login():
+def handle_login() -> User | None:
     user = user_service.login()
     if user:
-        print(f"Welcome, {user["fname"]} {user["lname"]}!")
-        return True
-    return False
+        print(f"Welcome, {user.fname} {user.lname}!")
+        return user
+    return None
 
 
 def handle_register():

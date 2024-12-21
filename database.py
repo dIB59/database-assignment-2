@@ -19,7 +19,7 @@ def get_book_subjects():
     try:
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("SELECT DISTINCT subject FROM book_store.books")
-            subjects = [row['subject'] for row in cursor.fetchall()]
+            subjects = [row["subject"] for row in cursor.fetchall()]
         return subjects
     finally:
         connection.close()

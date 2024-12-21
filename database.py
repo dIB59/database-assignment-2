@@ -37,15 +37,15 @@ def get_books_by_subject(subject: str):
 
 
 def register_user(
-    fname: str,
-    lname: str,
-    address: str,
-    city: str,
-    zip: int,
-    phone: str,
-    email: str,
-    password: str,
-    connection: PooledMySQLConnection | MySQLConnectionAbstract,
+        fname: str,
+        lname: str,
+        address: str,
+        city: str,
+        zip: int,
+        phone: str,
+        email: str,
+        password: str,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
 ) -> User or None:
     cursor = connection.cursor()
     insert_query = (
@@ -71,9 +71,9 @@ def register_user(
 
 
 def login_user(
-    email: str,
-    password: str,
-    connection: PooledMySQLConnection | MySQLConnectionAbstract,
+        email: str,
+        password: str,
+        connection: PooledMySQLConnection | MySQLConnectionAbstract,
 ) -> User or None:
     cursor = connection.cursor(dictionary=True)
     select_query = "SELECT * FROM book_store.members WHERE book_store.members.email = %s AND password = %s"
@@ -123,7 +123,6 @@ def __exists_in_cart(user_id, book_isbn):
         (user_id, book_isbn),
     )
     res = cursor.fetchone()[0]
-    print(res)
     cursor.close()
     connection.close()
     return res > 0
@@ -149,6 +148,28 @@ def add_to_cart(user_id, book_isbn, quantity):
     cursor.close()
     connection.close()
     return get_cart(user_id)
+
+
+def get_books_by_author(author):
+    connection = get_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT * FROM book_store.books WHERE book_store.books.author LIKE %s", (f"%{author}%",)
+    )
+    res = cursor.fetchall()
+    connection.close()
+    return res
+
+
+def get_books_by_title(title):
+    connection = get_connection()
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(
+        "SELECT * FROM book_store.books WHERE book_store.books.title LIKE %s", (f"%{title}%",)
+    )
+    res = cursor.fetchall()
+    connection.close()
+    return res
 
 
 if __name__ == "__main__":

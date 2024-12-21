@@ -52,10 +52,24 @@ def get_login_data():
 def __get_email():
     while True:
         email = input("Enter your email: ").strip()
-        if "@" in email and "." in email:
+        if __validate_email(email):
             break
         print("Invalid email address. Please enter a valid email.")
     return email
+
+
+def __validate_email(email: str):
+    if "@" not in email and "." not in email:
+        return False
+    if email.count("@") > 1:
+        return False
+    if email.index(".") < email.index("@"):
+        return False
+    if email.index("@") == 0 or email.index(".") == len(email) - 1:
+        return False
+    if email.index(".") - email.index("@") == 1:
+        return False
+    return True
 
 
 def __get_password():

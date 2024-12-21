@@ -23,5 +23,5 @@ def register() -> User or None:
         user_data.phone,
         user_data.email,
         user_data.password,
-        connection
+        connection,
     )

@@ -95,7 +95,7 @@ def handle_browse_subject(user: User):
 
         user_choice = user_input.get_pagination_decision()
 
-        if user_choice.lower() == "q":
+        if user_choice.lower() == "":
             break
         elif user_choice.lower() == "n" and end_index < total_books:
             current_page += 1

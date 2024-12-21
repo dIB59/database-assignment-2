@@ -67,7 +67,7 @@ def __print_books_pretty(books):
         print()
 
 
-def handle_browse_subject(user, database, user_input):
+def handle_browse_subject(user):
     subjects = sorted(database.get_book_subjects())
     _display_subjects(subjects)
 
@@ -77,7 +77,7 @@ def handle_browse_subject(user, database, user_input):
     _browse_books_by_subject(user, chosen_subject, database, user_input)
 
 
-def handle_search_by_author_title(user, database, user_input):
+def handle_search_by_author_title(user):
     while True:
         search_option = user_input.get_search_by_author_title_decision()
         if search_option == "1":

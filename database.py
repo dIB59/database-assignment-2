@@ -82,7 +82,7 @@ def login_user(
     cursor.close()
     connection.close()
 
-    return user
+    return User(*user.values()) if user else None
 
 
 def get_book_by_isbn(isbn: str):
@@ -119,6 +119,7 @@ def __exists_in_cart(user_id, book_isbn):
         (user_id, book_isbn),
     )
     res = cursor.fetchone()[0]
+    print(res)
     cursor.close()
     connection.close()
     return res > 0

@@ -167,7 +167,7 @@ def handle_checkout(user):
     print("\nBooks in your cart:")
     _print_books(cart)
 
-    total_price = sum([book["price"] * book["quantity"] for book in cart])
+    total_price = sum([book["price"] * book["qty"] for book in cart])
     print(f"\nTotal price: ${total_price}")
 
     checkout_decision = input("Proceed to check out (Y/N)?: ")

@@ -101,3 +101,7 @@ if __name__ == "__main__":
 
 def get_pagination_decision():
     return __validate_user_input("Type in your option: ", ["q", "n", "p"])
+    return __validate_user_input(
+        "Type in your option: ",
+        ["", "n", "p", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    )

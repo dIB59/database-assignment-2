@@ -1,6 +1,7 @@
 import database
 import user_input
 import user_service
+from user import User
 
 
 def show_login_screen():
@@ -57,7 +58,7 @@ def handle_logged_in_menu_option(option):
     action()
 
 
-def handle_browse_subject():
+def handle_browse_subject(user: User):
     subjects = sorted(database.get_book_subjects())
     print("\nAvailable Subjects:")
     for idx, subject in enumerate(subjects):

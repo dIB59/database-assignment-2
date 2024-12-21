@@ -114,34 +114,28 @@ def handle_browse_subject(user: User):
 
 
 def main():
-    while True:  # Main application loop
+    while True:
         user = None
 
-        # Main menu loop
         while not user:
             show_login_screen()
             user_decision = user_input.get_login_screen_decision()
-            main_menu_actions = {
-                "q": lambda: exit("Exiting the program."),
-                "1": handle_login,
-                "2": handle_register,
-            }
-            res = main_menu_actions.get(
-                user_decision, lambda: print("Invalid option.")
-            )()
+            if user_decision == "q":
+                exit("Exiting the program.")
+            elif user_decision == "1":
+                user = handle_login()
+            elif user_decision == "2":
+                handle_register()
+            else:
+                print("Invalid option.")
 
-            if res and user_decision == "1":
-                user = res
-
-        # Logged-in menu loop
         while user:
             show_logged_in_menu()
             user_decision = user_input.get_logged_in_screen_decision()
             if user_decision == "1":
                 handle_browse_subject(user)
-
-            if user_decision == "4":  # Logout option
-                user = None  # Exit logged-in loop
+            elif user_decision == "4":
+                user = None
             else:
                 handle_logged_in_menu_option(user_decision)
 

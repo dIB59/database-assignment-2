@@ -28,7 +28,9 @@ def get_book_subjects():
 def get_books_by_subject(subject: str):
     connection = get_connection()
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM book_store.books WHERE book_store.books.subject = %s", (subject, ))
+    cursor.execute(
+        "SELECT * FROM book_store.books WHERE book_store.books.subject = %s", (subject,)
+    )
     res = cursor.fetchall()
     connection.close()
     return res

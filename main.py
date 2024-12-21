@@ -58,6 +58,15 @@ def handle_logged_in_menu_option(option):
     action()
 
 
+def __print_books_pretty(books):
+    for book in books:
+        print(f"Author: {book['author']}")
+        print(f"Title: {book['title']}")
+        print(f"ISBN: {book['isbn']}")
+        print(f"Price: ${book['price']}")
+        print()
+
+
 def handle_browse_subject(user: User):
     subjects = sorted(database.get_book_subjects())
     print("\nAvailable Subjects:")
@@ -83,15 +92,15 @@ def handle_browse_subject(user: User):
         displayed_books = books[start_index:end_index]
 
         print(f"\nBooks for subject: {chosen_subject}")
-        for idx, book in enumerate(displayed_books, start=start_index + 1):
-            print(f"{idx}. {book['title']} by {book['author']}")
+        __print_books_pretty(displayed_books)
 
         print("\nOptions:")
+        print("Enter the ISBN of the book to add to cart")
         if current_page > 0:
             print("P - Previous Page")
         if end_index < total_books:
             print("N - Next Page")
-        print("Q - Quit")
+        print("Press Enter to go back to the menu")
 
         user_choice = user_input.get_pagination_decision()
 

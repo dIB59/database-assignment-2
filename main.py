@@ -113,15 +113,12 @@ def handle_browse_subject(user: User):
             print("Invalid choice. Please try again.")
 
 
-
-
-
 def main():
     while True:  # Main application loop
-        logged_in = False
+        user = None
 
         # Main menu loop
-        while not logged_in:
+        while not user:
             show_login_screen()
             user_decision = user_input.get_login_screen_decision()
             main_menu_actions = {
@@ -129,22 +126,22 @@ def main():
                 "1": handle_login,
                 "2": handle_register,
             }
-            res = main_menu_actions.get(user_decision, lambda: print("Invalid option."))()
+            res = main_menu_actions.get(
+                user_decision, lambda: print("Invalid option.")
+            )()
 
             if res and user_decision == "1":
-                logged_in = True
-
-
+                user = res
 
         # Logged-in menu loop
-        while logged_in:
+        while user:
             show_logged_in_menu()
             user_decision = user_input.get_logged_in_screen_decision()
             if user_decision == "1":
-                handle_browse_subject()
+                handle_browse_subject(user)
 
             if user_decision == "4":  # Logout option
-                logged_in = False  # Exit logged-in loop
+                user = None  # Exit logged-in loop
             else:
                 handle_logged_in_menu_option(user_decision)
 

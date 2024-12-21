@@ -1,34 +1,8 @@
 import database
 import user_input
 import user_service
+from interface import show_login_screen, show_logged_in_menu
 from user import User
-
-
-def show_login_screen():
-    width = 70
-    print("*" * width)
-    print(f"***{'':{width - 6}}***")
-    print(f"***{'Welcome to the Online Book Store'.center(width - 6)}***")
-    print(f"***{'':{width - 6}}***")
-    print("*" * width)
-    print(f"\n{'1. Member Login'.center(width)}")
-    print(f"{'2. New Member Registration'.center(width)}")
-    print(f"\n{'q. Quit'.center(width)}")
-
-
-def show_logged_in_menu():
-    width = 70
-    print("*" * width)
-    print(f"***{'':{width - 6}}***")
-    print(f"***{'Welcome to Online Book Store'.center(width - 6)}***")
-    print(f"***{'Member Menu'.center(width - 6)}***")
-    print(f"***{'':{width - 6}}***")
-    print("*" * width)
-    print("\n")
-    print(f"{'1 Browse by Subject'.center(width)}")
-    print(f"{'2 Search by Author/Title'.center(width)}")
-    print(f"{'3 Check Out'.center(width)}")
-    print(f"{'4 Logout'.center(width)}")
 
 
 def handle_login() -> User | None:
@@ -45,17 +19,6 @@ def handle_register():
         input("Please press enter to go back to the menu")
     else:
         print("Something went wrong please try again later.")
-
-
-def handle_logged_in_menu_option(option):
-    options = {
-        "1": lambda: print("Option 1 selected."),
-        "2": lambda: print("Option 2 selected."),
-        "3": lambda: print("Option 3 selected."),
-        "4": lambda: print("Logging out"),
-    }
-    action = options.get(option, lambda: print("Invalid option."))
-    action()
 
 
 def __print_books_pretty(books):
@@ -134,12 +97,12 @@ def _paginate_and_add_to_cart(user, books, database, user_input, context_message
         elif user_choice.lower() == "p" and current_page > 0:
             current_page -= 1
         elif database.get_book_by_isbn(user_choice):
-            _add_book_to_cart(user, user_choice, database, user_input)
+            _add_book_to_cart(user, user_choice)
         else:
             print("Invalid choice. Please try again.")
 
 
-def _add_book_to_cart(user, book_isbn, database, user_input):
+def _add_book_to_cart(user, book_isbn):
     quantity = user_input.get_quantity()
     database.add_to_cart(user.user_id, book_isbn, quantity)
     cart = database.get_cart(user.user_id)
@@ -179,6 +142,28 @@ def _print_books(books):
         print("No books to display.")
 
 
+def handle_checkout(user):
+    cart = database.get_cart(user.user_id)
+    if not cart:
+        print("No books in the cart.")
+        return
+
+    print("\nBooks in your cart:")
+    _print_books(cart)
+
+    total_price = sum([book["price"] * book["quantity"] for book in cart])
+    print(f"\nTotal price: ${total_price}")
+
+    checkout_decision = input("Proceed to check out (Y/N)?: ")
+    if checkout_decision.lower().startswith("y"):
+        database.checkout(user.user_id, cart)
+        print("Checkout successful.")
+    elif checkout_decision.lower().startswith("n"):
+        print("Returning to the main menu.")
+    else:
+        print("Invalid option. Returning to the main menu.")
+
+
 def main():
     while True:
         user = None
@@ -203,12 +188,11 @@ def main():
             if user_decision == "2":
                 handle_search_by_author_title(user)
             elif user_decision == "3":
-                #handle_check_out(user)
-                print("cej")
+                handle_checkout(user)
             elif user_decision == "4":
                 user = None
             else:
-                handle_logged_in_menu_option(user_decision)
+                print("Invalid option.")
 
 
 if __name__ == "__main__":

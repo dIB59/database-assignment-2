@@ -146,6 +146,11 @@ def main():
             user_decision = user_input.get_logged_in_screen_decision()
             if user_decision == "1":
                 handle_browse_subject(user)
+            if user_decision == "2":
+                handle_search_by_author_title(user)
+            elif user_decision == "3":
+                #handle_check_out(user)
+                print("cej")
             elif user_decision == "4":
                 user = None
             else:

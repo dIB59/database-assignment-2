@@ -82,7 +82,9 @@ def __get_password():
 
 
 def get_browse_subject_decision(subjects: List):
-    return __validate_user_input("Type in your option: ", [str(i) for i in range(len(subjects))])
+    return __validate_user_input(
+        "Type in your option: ", [str(i) for i in range(len(subjects))]
+    )
 
 
 def get_login_screen_decision():

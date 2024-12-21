@@ -100,8 +100,15 @@ if __name__ == "__main__":
 
 
 def get_pagination_decision():
-    return __validate_user_input("Type in your option: ", ["q", "n", "p"])
     return __validate_user_input(
         "Type in your option: ",
         ["", "n", "p", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    )
+
+
+def get_quantity():
+    return __validate_user_input(
+        "Enter quantity: ",
+        [str(i) for i in range(1, 11)],
+        "Invalid quantity. Please try again.",
     )

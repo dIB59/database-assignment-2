@@ -220,6 +220,7 @@ def create_order(user_id, cart):
     connection.close()
 
     print(f"Order {order_id} created successfully!")
+    return order_id
 
 
 def clear_cart(user_id):

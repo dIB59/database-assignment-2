@@ -1,7 +1,8 @@
 import database
+import interface
 import user_input
 import user_service
-from interface import show_login_screen, show_logged_in_menu
+from interface import show_login_screen, show_logged_in_menu, print_books
 from user import User
 
 
@@ -85,7 +86,7 @@ def _paginate_and_add_to_cart(user, books, database, user_input, context_message
         displayed_books = _get_books_for_page(books, current_page, books_per_page)
 
         print(f"\n{context_message}")
-        _print_books(displayed_books)
+        print_books(displayed_books)
 
         _display_pagination_options(current_page, total_books, books_per_page)
         user_choice = user_input.get_pagination_decision()
@@ -108,7 +109,7 @@ def _add_book_to_cart(user, book_isbn):
     cart = database.get_cart(user.user_id)
 
     print("\nBooks in your cart:")
-    _print_books(cart)
+    print_books(cart)
     input("Press Enter to continue")
 
 
@@ -134,30 +135,6 @@ def _display_pagination_options(current_page, total_books, books_per_page):
     print("Press Enter to go back to the menu")
 
 
-def _print_books(books):
-    max_length = 50  # Maximum length for text before truncating
-
-    def truncate(text, max_len):
-        return text if len(text) <= max_len else text[:max_len - 3] + '...'
-
-    if books:
-        # Print table header
-        header = f"{'Author':<30} {'Title':<50} {'ISBN':<15} {'Price':>8}"
-        print(header)
-        print("-" * len(header))
-
-        # Print each book's details in a formatted row
-        for book in books:
-            author = truncate(book['author'], 30)
-            title = truncate(book['title'], max_length)
-            isbn = truncate(book['isbn'], max_length)
-            price = f"${book['price']:>7.2f}"
-
-            print(f"{author:<30} {title:<50} {isbn:<15} {price:>8}")
-    else:
-        print("No books to display.")
-
-
 def handle_checkout(user):
     cart = database.get_cart(user.user_id)
     if not cart:
@@ -165,14 +142,15 @@ def handle_checkout(user):
         return
 
     print("\nBooks in your cart:")
-    _print_books(cart)
+    print_books(cart)
 
     total_price = sum([book["price"] * book["qty"] for book in cart])
     print(f"\nTotal price: ${total_price}")
 
     checkout_decision = input("Proceed to check out (Y/N)?: ")
     if checkout_decision.lower().startswith("y"):
-        database.create_order(user.user_id, cart)
+        order_id = database.create_order(user.user_id, cart)
+        interface.show_invoice(user, cart, order_id)
         database.clear_cart(user.user_id)
         print("Checkout successful.")
     elif checkout_decision.lower().startswith("n"):

@@ -51,11 +51,12 @@ def show_invoice(user, books: List[Dict], order_number: int):
     width = 100
     title_width = 45
 
+    print("-" * width)
     print(f"\n{f'Invoice for Order no.{order_number}':^{width}}")
     print("-" * width)
 
     # Order Number
-    print(f"{'Order Number:':<20} {order_number:<20}")
+    print(f"{'Order Number:'} {order_number}")
     print("-" * width)
 
     # Table Header

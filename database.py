@@ -178,3 +178,57 @@ if __name__ == "__main__":
     book_isbn = get_books_by_subject(s[0])[0]["isbn"]
 
     print(add_to_cart(1, book_isbn, 2))
+
+
+def create_order(user_id, cart):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Fetch the user's address
+    fetch_address_query = (
+        "SELECT address, city, zip "
+        "FROM book_store.members "
+        "WHERE userid = %s"
+    )
+    cursor.execute(fetch_address_query, (user_id,))
+    member_address = cursor.fetchone()
+
+    if not member_address:
+        raise ValueError("User not found or address not available")
+
+    ship_address, ship_city, ship_zip = member_address
+
+    insert_order_query = (
+        "INSERT INTO book_store.orders (userid, created, shipAddress, shipCity, shipZip) "
+        "VALUES (%s, CURDATE(), %s, %s, %s)"
+    )
+    cursor.execute(insert_order_query, (user_id, ship_address, ship_city, ship_zip))
+
+    order_id = cursor.lastrowid
+
+    for book in cart:
+        insert_order_details_query = (
+            "INSERT INTO book_store.odetails (ono, isbn, qty, amount) "
+            "VALUES (%s, %s, %s, %s)"
+        )
+        values = (order_id, book["isbn"], book["qty"], book["qty"] * book["price"])
+        cursor.execute(insert_order_details_query, values)
+
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    print(f"Order {order_id} created successfully!")
+
+
+def clear_cart(user_id):
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        "DELETE FROM book_store.cart WHERE book_store.cart.userid = %s", (user_id,)
+    )
+    connection.commit()
+    cursor.close()
+    connection.close()
+    print("Cart cleared successfully!")

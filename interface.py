@@ -34,13 +34,6 @@ def show_logged_in_menu():
 #This option should display an invoice (books’ information (ISBN, Title), book price, quantity, and total price) and a question to checkout. The order may have many books, not just one book.
 def show_checkout_menu(books: List[Dict]):
     width = 70
-    print("*" * width)
-    print(f"***{'':{width - 6}}***")
-    print(f"***{'Welcome to Online Book Store'.center(width - 6)}***")
-    print(f"***{'Checkout'.center(width - 6)}***")
-    print(f"***{'':{width - 6}}***")
-    print("*" * width)
-    print("\n")
     print(f"{'Books in your cart:'.center(width)}")
     print("\n")
     for book in books:

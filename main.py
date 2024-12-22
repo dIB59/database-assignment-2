@@ -172,7 +172,8 @@ def handle_checkout(user):
 
     checkout_decision = input("Proceed to check out (Y/N)?: ")
     if checkout_decision.lower().startswith("y"):
-        # database.checkout(user.user_id, cart)
+        database.create_order(user.user_id, cart)
+        database.clear_cart(user.user_id)
         print("Checkout successful.")
     elif checkout_decision.lower().startswith("n"):
         print("Returning to the main menu.")

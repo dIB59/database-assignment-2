@@ -232,4 +232,3 @@ def clear_cart(user_id):
     connection.commit()
     cursor.close()
     connection.close()
-    print("Cart cleared successfully!")

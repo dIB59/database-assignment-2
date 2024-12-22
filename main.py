@@ -153,6 +153,8 @@ def handle_checkout(user):
         interface.show_invoice(user, cart, order_id)
         database.clear_cart(user.user_id)
         print("Checkout successful.")
+        print("Press Enter to continue.")
+        print()
     elif checkout_decision.lower().startswith("n"):
         print("Returning to the main menu.")
     else:

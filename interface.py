@@ -47,7 +47,7 @@ def show_checkout_menu(books: List[Dict]):
     print(f"{'Proceed to check out (Y/N)?:'.center(width)}")
 
 
-def show_invoice(user, books: List[Dict], order_number: int):
+def show_invoice(user: User, books: List[Dict], order_number: int):
     width = 100
     title_width = 45
 

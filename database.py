@@ -2,7 +2,7 @@ import mysql.connector as sconnect
 from mysql.connector.abstracts import MySQLConnectionAbstract
 from mysql.connector.pooling import PooledMySQLConnection
 
-from user import User
+from models import User
 
 
 def get_connection():
@@ -37,15 +37,15 @@ def get_books_by_subject(subject: str):
 
 
 def register_user(
-        fname: str,
-        lname: str,
-        address: str,
-        city: str,
-        zip: int,
-        phone: str,
-        email: str,
-        password: str,
-        connection: PooledMySQLConnection | MySQLConnectionAbstract,
+    fname: str,
+    lname: str,
+    address: str,
+    city: str,
+    zip: int,
+    phone: str,
+    email: str,
+    password: str,
+    connection: PooledMySQLConnection | MySQLConnectionAbstract,
 ) -> User or None:
     cursor = connection.cursor()
     insert_query = (
@@ -71,9 +71,9 @@ def register_user(
 
 
 def login_user(
-        email: str,
-        password: str,
-        connection: PooledMySQLConnection | MySQLConnectionAbstract,
+    email: str,
+    password: str,
+    connection: PooledMySQLConnection | MySQLConnectionAbstract,
 ) -> User or None:
     cursor = connection.cursor(dictionary=True)
     select_query = "SELECT * FROM book_store.members WHERE book_store.members.email = %s AND password = %s"
@@ -154,7 +154,8 @@ def get_books_by_author(author):
     connection = get_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute(
-        "SELECT * FROM book_store.books WHERE book_store.books.author LIKE %s", (f"%{author}%",)
+        "SELECT * FROM book_store.books WHERE book_store.books.author LIKE %s",
+        (f"%{author}%",),
     )
     res = cursor.fetchall()
     connection.close()
@@ -165,7 +166,8 @@ def get_books_by_title(title):
     connection = get_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute(
-        "SELECT * FROM book_store.books WHERE book_store.books.title LIKE %s", (f"%{title}%",)
+        "SELECT * FROM book_store.books WHERE book_store.books.title LIKE %s",
+        (f"%{title}%",),
     )
     res = cursor.fetchall()
     connection.close()
@@ -186,9 +188,7 @@ def create_order(user_id, cart):
 
     # Fetch the user's address
     fetch_address_query = (
-        "SELECT address, city, zip "
-        "FROM book_store.members "
-        "WHERE userid = %s"
+        "SELECT address, city, zip " "FROM book_store.members " "WHERE userid = %s"
     )
     cursor.execute(fetch_address_query, (user_id,))
     member_address = cursor.fetchone()

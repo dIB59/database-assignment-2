@@ -3,7 +3,7 @@ import interface
 import user_input
 import user_service
 from interface import show_login_screen, show_logged_in_menu, print_books
-from user import User
+from models import User
 
 
 def handle_login() -> User | None:
@@ -58,13 +58,17 @@ def handle_search_by_author_title(user):
 
 def _browse_books_by_subject(user, subject, database, user_input):
     books = database.get_books_by_subject(subject)
-    _paginate_and_add_to_cart(user, books, database, user_input, f"Books for subject: {subject}")
+    _paginate_and_add_to_cart(
+        user, books, database, user_input, f"Books for subject: {subject}"
+    )
 
 
 def _search_books_by_author(user, author, database, user_input):
     books = database.get_books_by_author(author)
     if books:
-        _paginate_and_add_to_cart(user, books, database, user_input, f"Books by author: {author}")
+        _paginate_and_add_to_cart(
+            user, books, database, user_input, f"Books by author: {author}"
+        )
     else:
         print("No books found for the author.")
 
@@ -72,7 +76,9 @@ def _search_books_by_author(user, author, database, user_input):
 def _search_books_by_title(user, title, database, user_input):
     books = database.get_books_by_title(title)
     if books:
-        _paginate_and_add_to_cart(user, books, database, user_input, f"Books with title: {title}")
+        _paginate_and_add_to_cart(
+            user, books, database, user_input, f"Books with title: {title}"
+        )
     else:
         print("No books found for the title.")
 
@@ -93,7 +99,10 @@ def _paginate_and_add_to_cart(user, books, database, user_input, context_message
 
         if user_choice.lower() == "":
             break
-        elif user_choice.lower() == "n" and (current_page + 1) * books_per_page < total_books:
+        elif (
+            user_choice.lower() == "n"
+            and (current_page + 1) * books_per_page < total_books
+        ):
             current_page += 1
         elif user_choice.lower() == "p" and current_page > 0:
             current_page -= 1

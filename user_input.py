@@ -1,6 +1,6 @@
 from typing import List
 
-from user import User, NewUser
+from models import NewUser
 
 
 def __validate_user_input(
@@ -117,5 +117,6 @@ def get_search_by_author_title_decision():
         "1. Search by author\n"
         "2. Search by title\n"
         "Press enter to go back to Main menu\n",
-        ["1", "2", ""], "Invalid option. Please try again."
+        ["1", "2", ""],
+        "Invalid option. Please try again.",
     )

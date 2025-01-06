@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Dict, List
 
-from user import User
+from models import User
 
 
 def show_login_screen():
@@ -38,7 +38,9 @@ def show_checkout_menu(books: List[Dict]):
     for book in books:
         print(
             f"{'ISBN: ' + book['isbn'] + ' Title: ' + book['title'] + ' Price: $' + str(book['price'])
-               + ' Quantity: ' + str(book['qty']):^{width}}" + 'Total:' + book['price'] * book['qty']
+               + ' Quantity: ' + str(book['qty']):^{width}}"
+            + "Total:"
+            + book["price"] * book["qty"]
         )
     print("\n")
     total_price = sum([book["price"] * book["qty"] for book in books])
@@ -60,21 +62,19 @@ def show_invoice(user: User, books: List[Dict], order_number: int):
     print("-" * width)
 
     # Table Header
-    print(
-        f"{'ISBN':<15} {'Title':<45} {'Price':>10} {'Qty':>5} {'Total':>10}"
-    )
+    print(f"{'ISBN':<15} {'Title':<45} {'Price':>10} {'Qty':>5} {'Total':>10}")
     print("-" * width)
 
     # Table Rows
     order_total = 0  # Initialize total amount
     for book in books:
-        total = book['price'] * book['qty']
+        total = book["price"] * book["qty"]
         order_total += total
 
         # Truncate the title if it exceeds the title_width
-        title = book['title']
+        title = book["title"]
         if len(title) > title_width:
-            title = title[:title_width - 3] + "..."
+            title = title[: title_width - 3] + "..."
 
         print(
             f"{book['isbn']:<15} {title:<45} {book['price']:>9.2f} {book['qty']:>5} {total:>9.2f}"
@@ -88,7 +88,9 @@ def show_invoice(user: User, books: List[Dict], order_number: int):
     # Summary Section
     print("-" * width)
     print(f"{'Received Date:':<20} {str(datetime.now().date()):<20}")
-    print(f"{'Shipment Date:':<20} {str((datetime.now() + timedelta(days=7)).date()):<20}")
+    print(
+        f"{'Shipment Date:':<20} {str((datetime.now() + timedelta(days=7)).date()):<20}"
+    )
     print(f"{'User Name:':<20} {user.fname} {user.lname}")
     print(f"{'Shipment Address:':<20} {user.address}, {user.city}, {user.zip}")
     print("-" * width)
@@ -98,7 +100,7 @@ def print_books(books):
     max_length = 50  # Maximum length for text before truncating
 
     def truncate(text, max_len):
-        return text if len(text) <= max_len else text[:max_len - 3] + '...'
+        return text if len(text) <= max_len else text[: max_len - 3] + "..."
 
     if books:
         # Print table header
@@ -108,9 +110,9 @@ def print_books(books):
 
         # Print each book's details in a formatted row
         for book in books:
-            author = truncate(book['author'], 30)
-            title = truncate(book['title'], max_length)
-            isbn = truncate(book['isbn'], max_length)
+            author = truncate(book["author"], 30)
+            title = truncate(book["title"], max_length)
+            isbn = truncate(book["isbn"], max_length)
             price = f"${book['price']:>7.2f}"
 
             print(f"{author:<30} {title:<50} {isbn:<15} {price:>8}")

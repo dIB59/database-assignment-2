@@ -1,6 +1,6 @@
 import database
 import user_input
-from user import User
+from models import User
 
 
 def login() -> User | None:

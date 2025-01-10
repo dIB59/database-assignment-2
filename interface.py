@@ -28,7 +28,7 @@ def show_logged_in_menu():
     print(f"{'1 Browse by Subject'.center(width)}")
     print(f"{'2 Search by Author/Title'.center(width)}")
     print(f"{'3 Check Out'.center(width)}")
-    print(f"{'4 Logout'.center(width)}")
+    print('4 Logout'.center(width))
 
 
 def show_checkout_menu(books: List[Dict]):
@@ -37,14 +37,14 @@ def show_checkout_menu(books: List[Dict]):
     print("\n")
     for book in books:
         print(
-            f"{'ISBN: ' + book['isbn'] + ' Title: ' + book['title'] + ' Price: $' + str(book['price'])
+            f"{'ISBN: ' + book['isbn'] + ' Title: ' + book['title'] + ' Price: €' + str(book['price'])
                + ' Quantity: ' + str(book['qty']):^{width}}"
             + "Total:"
             + book["price"] * book["qty"]
         )
     print("\n")
     total_price = sum([book["price"] * book["qty"] for book in books])
-    print(f"{'Total price: $' + str(total_price):^{width}}")
+    print(f"{'Total price: €' + str(total_price):^{width}}")
     print("\n")
     print(f"{'Proceed to check out (Y/N)?:'.center(width)}")
 

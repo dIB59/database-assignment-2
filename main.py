@@ -7,8 +7,7 @@ from models import User
 
 
 def handle_login() -> User | None:
-    user = user_service.login()
-    if user:
+    if user := user_service.login():
         print(f"Welcome, {user.fname} {user.lname}!")
         return user
     return None
@@ -87,7 +86,7 @@ def _paginate_and_add_to_cart(user, books, database, user_input, context_message
     books_per_page = 2
     total_books = len(books)
     current_page = 0
-
+    print(f"Total books: {total_books}")
     while True:
         displayed_books = _get_books_for_page(books, current_page, books_per_page)
 

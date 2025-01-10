@@ -63,11 +63,7 @@ def __is_valid_email(email: str):
         return False
     if email.count("@") > 1:
         return False
-    if email.index(".") < email.index("@"):
-        return False
     if email.index("@") == 0 or email.index(".") == len(email) - 1:
-        return False
-    if email.index(".") - email.index("@") == 1:
         return False
     return True
 
